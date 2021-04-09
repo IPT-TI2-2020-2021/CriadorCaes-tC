@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,8 +16,11 @@ namespace CriadorCaes.Models {
          ListaDeCaes = new HashSet<CriadoresCaes>();
       }
 
-
-
+      /// <summary>
+      /// PK para o Criador
+      /// </summary>
+      [Key]
+      public int Id { get; set; }
 
 
       /// <summary>

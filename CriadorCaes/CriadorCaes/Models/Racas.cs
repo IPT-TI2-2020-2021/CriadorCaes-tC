@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,13 @@ namespace CriadorCaes.Models {
       }
 
       /// <summary>
+      /// PK para a Raça
+      /// </summary>
+      [Key]
+      public int Id { get; set; }
+
+
+      /// <summary>
       /// nome da Raça
       /// </summary>
       public string Designacao { get; set; }
@@ -27,7 +35,7 @@ namespace CriadorCaes.Models {
       // criar a lista de Cães a que uma Raça está associada
       //**************************************************************
       public ICollection<Caes> ListaDeCaes { get; set; }
-      
+
       //**************************************************************
 
 

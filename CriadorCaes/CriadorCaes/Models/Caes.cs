@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,11 @@ namespace CriadorCaes.Models {
          ListaDeCriadores = new HashSet<CriadoresCaes>();
       }
 
+      /// <summary>
+      /// PK para identificar um cão
+      /// </summary>
+      [Key]
+      public int Id { get; set; }
 
       /// <summary>
       /// nome do cão

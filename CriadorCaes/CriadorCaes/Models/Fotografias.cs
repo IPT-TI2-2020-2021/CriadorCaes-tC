@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +12,25 @@ namespace CriadorCaes.Models {
    /// </summary>
    public class Fotografias {
 
+      /// <summary>
+      /// PK para as Fotografias
+      /// </summary>
+      [Key]
+      public int Id { get; set; }
+
+      /// <summary>
+      /// nome do ficheiro que contém a fotografia
+      /// </summary>
       public string Fotografia { get; set; }
 
+      /// <summary>
+      /// data em que a fotografia foi tirada
+      /// </summary>
       public DateTime Data{ get; set; }
 
+      /// <summary>
+      /// local onde foi tirada a fotografia
+      /// </summary>
       public string Local { get; set; }
 
       //**************************************************************
