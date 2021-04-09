@@ -4,14 +4,16 @@ using CriadorCaes.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CriadorCaes.Migrations
 {
     [DbContext(typeof(CriadorCaesBD))]
-    partial class CriadorCaesBDModelSnapshot : ModelSnapshot
+    [Migration("20210409221110_alteracaoDados")]
+    partial class alteracaoDados
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
