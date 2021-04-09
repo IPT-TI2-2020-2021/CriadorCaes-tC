@@ -1,6 +1,9 @@
+using CriadorCaes.Data;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +24,16 @@ namespace CriadorCaes {
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services) {
          services.AddControllersWithViews();
+
+         // configurar a aplicação (o nosso sistema) para aceder à Base de Dados
+         // e de que tipo será
+         services.AddDbContext<CriadorCaesBD>(    // especifica q a BD 'CriadorCaesBD deverá ser usada pelo nosso projeto
+            options => options.UseSqlServer(      // a BD será do tipo MS SqlServer
+               Configuration.GetConnectionString("DefaultConnection")  // onde está especificada a BD?
+               )
+            );
+
+
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
