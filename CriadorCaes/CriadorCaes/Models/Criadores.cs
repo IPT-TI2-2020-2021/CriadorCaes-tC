@@ -28,12 +28,14 @@ namespace CriadorCaes.Models {
       /// </summary>
       [Required(ErrorMessage = "O Nome é de preenchimento obrigatório...")]
       [StringLength(40, ErrorMessage = "O {0} não deve ser maior que {1} caracteres...")]
+      [RegularExpression("[A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]+", ErrorMessage = "O {0} só aceita letras...")]
       public string Nome { get; set; }
 
       /// <summary>
       /// sufixo associado ao cão criado pelo criador
       /// </summary>
       [StringLength(20, ErrorMessage = "O {0} não deve ser maior que {1} caracteres...")]
+      [Display(Name = "Afixo")]
       public string NomeComercial { get; set; }
 
       /// <summary>
@@ -46,8 +48,11 @@ namespace CriadorCaes.Models {
       /// <summary>
       /// código postal
       /// </summary>
-      [Required(ErrorMessage = "O Código Postal é de preenchimento obrigatório...")]
+      [Required(ErrorMessage = "O {0} é de preenchimento obrigatório...")]
       [StringLength(40, MinimumLength = 8, ErrorMessage = "O {0} deve estar compreendido entre {1} e {2} caracteres...")]
+      [RegularExpression("[1-9][0-9]{3}-[0-9]{3}( [a-záéíóúãõâêôçA-ZÁÉÍÓÚÃÕÂÊÔÇ]+)+",
+         ErrorMessage = "O {0} é do tipo XXXX-XXX NOME DA RUA/FREGUESIA/POVOAÇÃO, onde o X representa algarismos")]
+      [Display(Name = "Código Postal")]
       public string CodPostal { get; set; }
 
       /// <summary>
@@ -62,6 +67,8 @@ namespace CriadorCaes.Models {
       /// telemóvel do Criador
       /// </summary>
       [StringLength(16, MinimumLength = 9, ErrorMessage = "O {0} deve estar compreendido entre {1} e {2} caracteres...")]
+      [RegularExpression("(00)?[0-9]{9,14}", ErrorMessage = "O {0} só aceita algarismos.")]
+      [Display(Name = "Telemóvel")]
       public string Telemovel { get; set; }
 
 
