@@ -15,6 +15,12 @@ namespace CriadorCaes.Models {
       [Key]
       public int Id { get; set; }
 
+      /// <summary>
+      /// data de compra
+      /// </summary>
+      public DateTime DataCompra { get; set; }
+
+
       //************************************************************************
       // FK para o Criador
       //************************************************************************

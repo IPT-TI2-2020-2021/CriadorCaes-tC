@@ -26,7 +26,7 @@ namespace CriadorCaes.Models {
       /// <summary>
       /// data em que a fotografia foi tirada
       /// </summary>
-      public DateTime Data{ get; set; }
+      public DateTime DataFoto{ get; set; }
 
       /// <summary>
       /// local onde foi tirada a fotografia

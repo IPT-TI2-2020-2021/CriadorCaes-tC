@@ -124,7 +124,7 @@ namespace CriadorCaes.Migrations
                     b.Property<int>("CaoFK")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Data")
+                    b.Property<DateTime>("DataFoto")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Fotografia")

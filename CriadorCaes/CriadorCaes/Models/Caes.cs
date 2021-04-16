@@ -40,10 +40,7 @@ namespace CriadorCaes.Models {
       /// </summary>
       public DateTime DataNasc { get; set; }
 
-      /// <summary>
-      /// data de compra
-      /// </summary>
-      public DateTime DataCompra { get; set; }
+     
 
       /// <summary>
       /// referência ao código LOP do cão - 
