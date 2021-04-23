@@ -1,0 +1,74 @@
+﻿@model IEnumerable<CriadorCaes.Models.Fotografias>
+@* esta linha identifica a origem e o tipo dos dados q chegam à View *@
+
+@{
+   ViewData["Title"] = "Index";
+}
+
+<h1>Lista de Fotografias dos nossos cães</h1>
+
+<p>
+   <a asp-action="Create">Adicionar nova fotografia</a>
+</p>
+
+<table class="table">
+   <thead>
+      <tr>
+         <th>
+            @*
+               @Html -> designado como HTML Helper
+               em concreto, este acede ao Modelo e mostra o nome da atributo 'Fotografia'
+            *@
+            @Html.DisplayNameFor(model => model.Fotografia)
+         </th>
+         <th>
+            @Html.DisplayNameFor(model => model.DataFoto)
+         </th>
+         @*<th>
+               @Html.DisplayNameFor(model => model.Local)
+            </th>*@
+         <th>
+            @Html.DisplayNameFor(model => model.Cao)
+         </th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      @foreach (var item in Model) {
+         <tr>
+            <td>
+               @*
+                  @Html -> este HTML Helper mostra o conteúdo do atributo 'Fotografia'
+               *@
+               @*   @Html.DisplayFor(modelItem => item.Fotografia)   *@
+               @* quero mostrar a fotografia do Cão  *@
+               @* <img src="~/fotos/@Html.DisplayFor(modelItem => item.Fotografia)" /> *@
+               @* <img src="~/fotos/@item.Fotografia" /> ---> absolutamente equivalente à linha anterior  *@
+               <img src="~/fotos/@item.Fotografia"
+                    alt="Fotografia do cão @item.Cao.Nome"
+                    title="@item.Cao.Nome"
+                    height="50" />
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.DataFoto)
+            </td>
+            @*<td>
+                  @Html.DisplayFor(modelItem => item.Local)
+               </td>*@
+            <td>
+               @* este HTML Helper está a mostrar os dados do Cão associado à fotografia  *@
+               <a asp-action="Details"
+                  asp-controller="Cao"
+                  asp-route-id="@item.CaoFK">
+                  @Html.DisplayFor(modelItem => item.Cao.Nome)
+               </a>
+            </td>
+            <td>
+               <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+               <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+               <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+         </tr>
+      }
+   </tbody>
+</table>
