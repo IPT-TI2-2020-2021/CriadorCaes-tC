@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CriadorCaes.Data;
 using CriadorCaes.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CriadorCaes.Controllers {
    public class FotografiasController : Controller {
@@ -67,7 +68,26 @@ namespace CriadorCaes.Controllers {
       // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<IActionResult> Create([Bind("Id,Fotografia,DataFoto,Local,CaoFK")] Fotografias foto) {
+      public async Task<IActionResult> Create([Bind("DataFoto,Local,CaoFK")] Fotografias foto, IFormFile fotoCao) {
+
+         /* Avaliar o q fazer com o ficheiro
+          * 
+          * existe ficheiro???
+          *  - se não existe, devolve o controlo à View, 
+          *                   notificando o utilizador que deve selecionar uma fotografia
+          * 
+          *  - se existe,
+          *    - será que o ficheiro é do tipo correto (jpg, jpeg ou png)?
+          *        - se sim, definir o nome do ficheiro
+          *                  associar ao objeto 'foto' o nome do ficheiro
+          *                  definir a localização
+          *                  guardar o ficheiro no disco rígido
+          *        - se não, devolve o controlo à View, 
+          *                  notificando o utilizador que deve selecionar uma fotografia
+          */
+
+
+
 
          if (foto.CaoFK > 0) {
             try {
