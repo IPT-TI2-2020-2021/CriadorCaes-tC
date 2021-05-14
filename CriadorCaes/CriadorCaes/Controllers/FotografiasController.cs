@@ -233,25 +233,108 @@ namespace CriadorCaes.Controllers {
             return NotFound();
          }
 
-         var fotografias = await _db.Fotografias
+         var fotografia = await _db.Fotografias
              .Include(f => f.Cao)
              .FirstOrDefaultAsync(m => m.Id == id);
-         if (fotografias == null) {
+         if (fotografia == null) {
             return NotFound();
          }
 
-         return View(fotografias);
+         // guardar o ID da foto escolhida, para memória futura
+         // Session["idFoto"]= id;   --> deixou de estar disponível
+         HttpContext.Session.SetInt32("idFoto", (int)id);
+
+         return View(fotografia);
       }
+
+
+
 
       // POST: Fotografias/Delete/5
       [HttpPost, ActionName("Delete")]
       [ValidateAntiForgeryToken]
       public async Task<IActionResult> DeleteConfirmed(int id) {
-         var fotografias = await _db.Fotografias.FindAsync(id);
+
+         // ler o valor do ID que foi previamente guardado
+         var numIdFoto = HttpContext.Session.GetInt32("idFoto");
+
+         // confrontar este valor com o 'id' que agora é fornecido
+         // se for diferente, é pq há um problema
+         if (numIdFoto != id) {
+            // há problema pq houve alteração de algo no browser
+            // nada digo, e redireciono a app para uma página neutra
+            return RedirectToAction("Index");
+         }
+
+         try {
+            var fotografias = await _db.Fotografias.FindAsync(id);
+            _db.Fotografias.Remove(fotografias);
+            await _db.SaveChangesAsync();
+
+            // se cheguei aqui,
+            // não esquecer de eliminar o ficheiro
+
+         }
+         catch (Exception) {
+
+            throw;
+         }
+
+         return RedirectToAction(nameof(Index));
+      }
+
+
+
+
+
+
+      // GET: Fotografias/Delete/5
+      public async Task<IActionResult> DeleteDois(int? id) {
+         if (id == null) {
+            return NotFound();
+         }
+
+         var fotografia = await _db.Fotografias
+             .Include(f => f.Cao)
+             .FirstOrDefaultAsync(m => m.Id == id);
+         if (fotografia == null) {
+            return NotFound();
+         }
+
+         // guardar o ID da foto escolhida, para memória futura
+         // Session["idFoto"]= id;   --> deixou de estar disponível
+         HttpContext.Session.SetInt32("idFoto", (int)id);
+
+         return View(fotografia);
+      }
+
+
+
+
+      // POST: Fotografias/Delete/5
+      [HttpPost, ActionName("DeleteDois")]
+      [ValidateAntiForgeryToken]
+      public async Task<IActionResult> DeleteDoisConfirmed() {
+
+         // ler o valor do ID que foi previamente guardado
+         var numIdFoto = HttpContext.Session.GetInt32("idFoto");
+
+         // se a var de sessão extinguir-se,
+         // temos um problema
+         if (numIdFoto == null) {
+            //é preciso alertar o utilizador que demorou tempo de mais
+
+            // e devolver o controlo à View
+            return RedirectToAction("Index");
+         }
+
+         var fotografias = await _db.Fotografias.FindAsync(numIdFoto);
          _db.Fotografias.Remove(fotografias);
          await _db.SaveChangesAsync();
          return RedirectToAction(nameof(Index));
       }
+
+
 
       private bool FotografiasExists(int id) {
          return _db.Fotografias.Any(e => e.Id == id);

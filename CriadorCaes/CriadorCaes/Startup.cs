@@ -23,6 +23,15 @@ namespace CriadorCaes {
 
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services) {
+
+         // autoriza o uso de vars. de sessão
+         services.AddDistributedMemoryCache();
+         services.AddSession(options => {
+            options.IdleTimeout = TimeSpan.FromSeconds(120);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+         });
+
          services.AddControllersWithViews();
 
          // configurar a aplicação (o nosso sistema) para aceder à Base de Dados
@@ -50,6 +59,9 @@ namespace CriadorCaes {
          app.UseStaticFiles();
 
          app.UseRouting();
+
+         // iniciar o uso de vars. de sessão
+         app.UseSession();
 
          app.UseAuthorization();
 
