@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using CriadorCaes.Data;
 using CriadorCaes.Models;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CriadorCaes.Controllers {
    public class FotografiasController : Controller {
@@ -17,9 +19,17 @@ namespace CriadorCaes.Controllers {
       /// </summary>
       private readonly CriadorCaesBD _db;
 
+      /// <summary>
+      /// Atributo que guarda nele os dados do Servidor
+      /// </summary>
+      private readonly IWebHostEnvironment _dadosServidor;
+
+
       public FotografiasController(
-         CriadorCaesBD context) {
+         CriadorCaesBD context,
+         IWebHostEnvironment dadosServidor) {
          _db = context;
+         _dadosServidor = dadosServidor;
       }
 
       // GET: Fotografias
@@ -87,6 +97,46 @@ namespace CriadorCaes.Controllers {
           */
 
 
+         // avaliar se existe ficheiro
+         if (fotoCao == null) {
+            // se aqui entro, não há foto
+            // notificar o utilizador que há um erro
+            ModelState.AddModelError("", "Deve selecionar uma fotografia...");
+
+            // devolver o controlo à View
+            // prepara os dados a serem enviados para a View
+            // para a Dropdown
+            ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
+            return View();
+         }
+
+         // há ficheiro. Mas, será do tipo correto (jpg/jpeg, png)?
+         if (fotoCao.ContentType == "image/png" || fotoCao.ContentType == "image/jpeg") {
+            // o ficheiro é bom
+
+            // definir o nome do ficheiro
+            string nomeFoto = "";
+            Guid g;
+            g = Guid.NewGuid();
+            nomeFoto = foto.CaoFK + "_" + g.ToString();
+            string extensaoFoto = Path.GetExtension(fotoCao.FileName).ToLower();
+            nomeFoto = nomeFoto + extensaoFoto;
+
+            // associar ao objeto 'foto' o nome do ficheiro
+            foto.Fotografia = nomeFoto;
+         }
+         else {
+            // se aqui chego, há ficheiro, mas não foto
+            // se aqui entro, não há foto
+            // notificar o utilizador que há um erro
+            ModelState.AddModelError("", "Deve selecionar uma fotografia...");
+
+            // devolver o controlo à View
+            // prepara os dados a serem enviados para a View
+            // para a Dropdown
+            ViewData["CaoFK"] = new SelectList(_db.Caes.OrderBy(c => c.Nome), "Id", "Nome");
+            return View();
+         }
 
 
          if (foto.CaoFK > 0) {
@@ -102,6 +152,14 @@ namespace CriadorCaes.Controllers {
                   // consolidar as alterações na base de dados
                   // COMMIT
                   await _db.SaveChangesAsync();
+
+                  // vou guardar o ficheiro no disco rígido do servidor
+                  // determinar onde guardar o ficheiro
+                  string caminhoAteAoFichFoto = _dadosServidor.WebRootPath;
+                  caminhoAteAoFichFoto = Path.Combine(caminhoAteAoFichFoto, "fotos", foto.Fotografia);
+                  // guardar o ficheiro no Disco Rígido
+                  using var stream = new FileStream(caminhoAteAoFichFoto, FileMode.Create);
+                  await fotoCao.CopyToAsync(stream);
 
                   // redireciona a execução do código para a método Index    
                   return RedirectToAction(nameof(Index));

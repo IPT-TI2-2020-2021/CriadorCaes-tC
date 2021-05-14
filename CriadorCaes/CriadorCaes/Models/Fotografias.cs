@@ -26,7 +26,8 @@ namespace CriadorCaes.Models {
       /// <summary>
       /// data em que a fotografia foi tirada
       /// </summary>
-      public DateTime DataFoto{ get; set; }
+      [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+      public DateTime DataFoto { get; set; }
 
       /// <summary>
       /// local onde foi tirada a fotografia
