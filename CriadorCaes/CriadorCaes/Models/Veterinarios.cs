@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,7 +31,18 @@ namespace CriadorCaes.Models {
       /// </summary>
       public decimal Honorario { get; set; }
 
+      /// <summary>
+      /// variável auxiliar para permitir a recolha dos dados 
+      /// do honorário do veterinário
+      /// </summary>
 
+      [NotMapped] // ignora este atributo nas migrações
+                  // nunca surgirá na Base de Dados
+      [Required(ErrorMessage = "Os {0} são de preenchimento obrigatório")]
+      [Display(Name = "Honorários")]
+      [RegularExpression("[0-9]+([.,][0-9]{1,2})?", ErrorMessage = "Deve escrever apenas números, com, no máximo, 2 casas decimais.")]
+      [StringLength(10, ErrorMessage = "Não pode escrever mais do que {1} caracteres nos {0}")]
+      public string HonorarioAux { get; set; }
 
 
       //*****************************************************************************
