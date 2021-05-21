@@ -17,6 +17,7 @@ namespace CriadorCaes.Models {
          // inicialização das 'listas'
          ListaDeFotografias = new HashSet<Fotografias>();
          ListaDeCriadores = new HashSet<CriadoresCaes>();
+         ListaVets = new HashSet<Veterinarios>();
       }
 
       /// <summary>
@@ -82,5 +83,10 @@ namespace CriadorCaes.Models {
       //************************************************************************
       public ICollection<CriadoresCaes > ListaDeCriadores { get; set; }
       //************************************************************************
+
+      /// <summary>
+      /// Lista dos veterinários que trataram o cão
+      /// </summary>
+      public ICollection<Veterinarios> ListaVets { get; set; }
    }
 }
